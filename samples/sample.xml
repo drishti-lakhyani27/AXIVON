@@ -1,0 +1,8 @@
+<Event>
+  <timestamp>2026-05-01T10:31:07Z</timestamp>
+  <src>203.0.113.45</src>
+  <dst>198.51.100.10</dst>
+  <proto>TCP</proto>
+  <action>deny</action>
+  <message>Policy P-101 violation</message>
+</Event>

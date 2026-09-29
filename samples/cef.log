@@ -1,0 +1,1 @@
+CEF:0|Cyberdyne|FireWall-X|12.1|100|Port scan detected|7|src=203.0.113.45 spt=51500 dst=198.51.100.10 dpt=22 proto=TCP act=BLOCK cs1=P-101 cs1Label=PolicyID

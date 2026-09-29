@@ -1,0 +1,1 @@
+<134>May  1 10:31:07 fw-edge01 secuwall: action=DROP src=203.0.113.45 spt=51500 dst=198.51.100.10 dpt=22 proto=TCP policy=P-101

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AXIVON — Universal Lossless Cyber Event Intelligence Fabric</title>
+<meta name="description" content="AXIVON local prototype: ingest heterogeneous cyber telemetry, preserve raw evidence, normalize, validate, prove." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='4' y='4' width='24' height='24' fill='none' stroke='%2338bdf8' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='4' fill='%2338bdf8'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="grid-bg" aria-hidden="true"></div>
+
+<!-- ================= HEADER ================= -->
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></div>
+    <div class="brand-text">
+      <span class="brand-name">AXIVON</span>
+      <span class="brand-sub">UNIVERSAL LOSSLESS CYBER EVENT INTELLIGENCE FABRIC</span>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <span class="chip" id="chip-api"><span class="dot" id="api-dot"></span><span id="api-label">API CONNECTING</span></span>
+    <span class="chip chip-static">LOCAL PROTOTYPE</span>
+    <span class="chip chip-static">PIPELINE READY</span>
+  </div>
+</header>
+
+<main class="layout">
+
+  <!-- ================= A. EVENT INGESTION ================= -->
+  <section class="panel" id="sec-ingest">
+    <div class="panel-head">
+      <h2><span class="idx">A</span>EVENT INGESTION</h2>
+      <p class="panel-desc">Paste raw telemetry, pick a built-in sample, or upload a log file. Processing is performed entirely by the local backend.</p>
+    </div>
+    <div class="ingest-row">
+      <label class="mono-label" for="sample-select">SAMPLE</label>
+      <select id="sample-select" aria-label="Built-in sample selector">
+        <option value="">— select built-in sample —</option>
+      </select>
+      <label class="upload-btn btn btn-ghost" for="file-input">UPLOAD FILE
+        <input type="file" id="file-input" accept=".log,.txt,.json,.xml,.csv" hidden />
+      </label>
+    </div>
+    <textarea id="raw-input" spellcheck="false"
+      placeholder="Paste a raw security event… e.g. FW-X|BLK|TCP|10.2.1.5|443|10.5.2.8|53|P17"></textarea>
+    <div class="ingest-actions">
+      <button class="btn btn-primary" id="btn-process">PROCESS EVENT</button>
+      <button class="btn btn-ghost" id="btn-batch">PROCESS BATCH (SAMPLES)</button>
+      <span class="hint mono" id="char-count">0 CHARS</span>
+    </div>
+  </section>
+
+  <!-- ================= B. FORMAT INTELLIGENCE ================= -->
+  <section class="panel" id="sec-format">
+    <div class="panel-head">
+      <h2><span class="idx">B</span>FORMAT INTELLIGENCE</h2>
+    </div>
+    <div class="format-grid" id="format-grid">
+      <div class="stat"><span class="stat-label mono">DETECTED FORMAT</span><span class="stat-value" id="fmt-name">—</span></div>
+      <div class="stat"><span class="stat-label mono">CONFIDENCE</span><span class="stat-value" id="fmt-conf">—</span></div>
+      <div class="stat stat-wide"><span class="stat-label mono">DETECTION REASON</span><span class="stat-value small" id="fmt-reason">awaiting input</span></div>
+    </div>
+    <p class="mono micro" id="fmt-method"></p>
+  </section>
+
+  <!-- ================= C. PIPELINE ================= -->
+  <section class="panel" id="sec-pipeline">
+    <div class="panel-head">
+      <h2><span class="idx">C</span>PIPELINE</h2>
+    </div>
+    <ol class="pipeline" id="pipeline-flow">
+      <li data-step="ingest"><span>INGEST</span><em></em></li>
+      <li data-step="preserve"><span>PRESERVE</span><em></em></li>
+      <li data-step="detect"><span>DETECT</span><em></em></li>
+      <li data-step="parse"><span>PARSE</span><em></em></li>
+      <li data-step="normalize"><span>NORMALIZE</span><em></em></li>
+      <li data-step="validate"><span>VALIDATE</span><em></em></li>
+      <li data-step="prove"><span>PROVE</span><em></em></li>
+    </ol>
+  </section>
+
+  <!-- ================= D. UNKNOWN → UNDERSTOOD ================= -->
+  <section class="panel" id="sec-flow" hidden>
+    <div class="panel-head">
+      <h2><span class="idx">D</span>UNKNOWN → UNDERSTOOD</h2>
+      <p class="panel-desc">No format signature matched. Deterministic structure discovery and semantic mapping onboarding — <strong>prototype heuristics, not machine learning.</strong></p>
+    </div>
+    <div class="flow-viz">
+      <div class="flow-col">
+        <div class="flow-node unknown">UNKNOWN</div>
+        <div class="flow-arrow" aria-hidden="true">↓</div>
+        <div class="flow-node">FINGERPRINT</div>
+        <div class="flow-arrow" aria-hidden="true">↓</div>
+        <div class="flow-node">STRUCTURE DISCOVERY</div>
+        <div class="flow-arrow" aria-hidden="true">↓</div>
+        <div class="flow-node">SEMANTIC MAPPING</div>
+        <div class="flow-arrow" aria-hidden="true">↓</div>
+        <div class="flow-node">VALIDATION</div>
+        <div class="flow-arrow" aria-hidden="true">↓</div>
+        <div class="flow-node understood">UNDERSTOOD</div>
+      </div>
+      <div class="flow-detail" id="flow-detail"></div>
+    </div>
+  </section>
+
+  <!-- ================= E. CANONICAL EVENT ================= -->
+  <section class="panel" id="sec-canonical">
+    <div class="panel-head">
+      <h2><span class="idx">E</span>CANONICAL EVENT</h2>
+      <button class="btn btn-ghost btn-small" id="btn-copy-json" disabled>COPY JSON</button>
+    </div>
+    <pre class="json-view" id="canonical-json">// canonical event will appear here</pre>
+  </section>
+
+  <!-- ================= F. FIELD PROVENANCE ================= -->
+  <section class="panel" id="sec-provenance">
+    <div class="panel-head">
+      <h2><span class="idx">F</span>FIELD PROVENANCE</h2>
+      <div class="prov-summary mono" id="prov-summary"></div>
+    </div>
+    <div class="table-scroll">
+      <table class="data-table" id="prov-table">
+        <thead><tr>
+          <th>CANONICAL FIELD</th><th>SOURCE FIELD</th><th>VALUE</th><th>METHOD</th><th>CONFIDENCE</th>
+        </tr></thead>
+        <tbody id="prov-tbody"><tr class="empty-row"><td colspan="5">no provenance yet — process an event</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ================= G. VALIDATION ================= -->
+  <section class="panel" id="sec-validation">
+    <div class="panel-head">
+      <h2><span class="idx">G</span>VALIDATION</h2>
+    </div>
+    <div class="validation-verdict" id="validation-verdict">—</div>
+    <div class="table-scroll">
+      <table class="data-table" id="val-table">
+        <thead><tr><th>FIELD</th><th>CHECK</th><th>SEVERITY</th><th>DETAIL</th></tr></thead>
+        <tbody id="val-tbody"><tr class="empty-row"><td colspan="4">no validation yet</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ================= H. INTEGRITY ================= -->
+  <section class="panel" id="sec-integrity">
+    <div class="panel-head">
+      <h2><span class="idx">H</span>CRYPTOGRAPHIC INTEGRITY</h2>
+      <p class="panel-desc">SHA-256 evidence hashes and a Merkle tree over batch leaves provide tamper-evident verification. This is a Merkle hash tree — <strong>not a blockchain.</strong></p>
+    </div>
+    <div class="hash-grid">
+      <div class="stat"><span class="stat-label mono">RAW SHA-256</span><span class="stat-value mono hash" id="hash-raw">—</span></div>
+      <div class="stat"><span class="stat-label mono">CANONICAL SHA-256</span><span class="stat-value mono hash" id="hash-canonical">—</span></div>
+    </div>
+    <div class="merkle-block">
+      <div class="merkle-head mono">BATCH MERKLE TREE</div>
+      <div class="merkle-grid">
+        <div class="stat"><span class="stat-label mono">EVENTS PROCESSED</span><span class="stat-value" id="merkle-count">—</span></div>
+        <div class="stat stat-wide"><span class="stat-label mono">MERKLE ROOT</span><span class="stat-value mono hash" id="merkle-root">—</span></div>
+        <div class="stat stat-wide"><span class="stat-label mono">VERIFICATION</span><span class="stat-value" id="merkle-verify">—</span></div>
+      </div>
+      <div class="merkle-levels mono" id="merkle-levels"></div>
+      <div class="verify-row">
+        <button class="btn btn-ghost btn-small" id="btn-verify-hash" disabled>VERIFY RAW HASH</button>
+        <button class="btn btn-ghost btn-small" id="btn-verify-merkle" disabled>VERIFY MERKLE ROOT</button>
+        <span class="mono micro" id="verify-status"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= I. RAW EVIDENCE ================= -->
+  <section class="panel" id="sec-raw">
+    <div class="panel-head">
+      <h2><span class="idx">I</span>RAW EVIDENCE</h2>
+      <span class="mono micro">PRESERVED VERBATIM · SHA-256 SEALED · NEVER MODIFIED</span>
+    </div>
+    <pre class="raw-view" id="raw-evidence">// raw evidence will appear here exactly as received</pre>
+  </section>
+
+  <!-- ================= J. EXPORT ================= -->
+  <section class="panel" id="sec-export">
+    <div class="panel-head">
+      <h2><span class="idx">J</span>EXPORT</h2>
+    </div>
+    <div class="export-row">
+      <button class="btn btn-primary" id="btn-export" disabled>DOWNLOAD CANONICAL JSON</button>
+      <span class="mono micro" id="export-status"></span>
+    </div>
+  </section>
+
+  <footer class="foot mono">
+    <span>AXIVON · UNIVERSAL LOSSLESS CYBER EVENT INTELLIGENCE FABRIC</span>
+    <span>UNDERSTAND · PRESERVE · PROVE</span>
+    <span>LOCAL PROTOTYPE — DETERMINISTIC HEURISTICS, NO ML, NO EXTERNAL SERVICES</span>
+  </footer>
+</main>
+
+<div id="toast" class="toast mono" role="status" aria-live="polite"></div>
+<script src="app.js"></script>
+</body>
+</html>

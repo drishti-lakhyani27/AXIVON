@@ -1,0 +1,16 @@
+{
+  "timestamp": "2026-05-01T10:31:07Z",
+  "vendor": "Aegis",
+  "product": "SensorMesh",
+  "src_ip": "203.0.113.45",
+  "src_port": 51500,
+  "dst_ip": "198.51.100.10",
+  "dst_port": 22,
+  "proto": "TCP",
+  "action": "BLOCK",
+  "policy_id": "P-101",
+  "severity": "high",
+  "signature_id": "SCAN-H-77",
+  "user": "j.doe",
+  "message": "SSH brute force pattern matched"
+}
